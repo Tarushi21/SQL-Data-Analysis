@@ -1,0 +1,72 @@
+-- What are the names of the players whose salary is greater than 100,000?
+
+SELECT PLAYER_NAME 
+FROM players
+WHERE SALARY> 100000;
+
+
+--What is the team name of the player with player_id = 3?
+
+SELECT t.TEAM_NAME
+FROM TEAMS t
+JOIN PLAYERS p ON t.team_id = P.TEAM_ID
+WHERE p.player_id = 3;
+
+--What is the total number of players in each team?
+
+SELECT TEAM_NAME, COUNT(DISTINCT player_id) AS TOTAL_PLAYERS
+FROM TEAMS t
+JOIN PLAYERS p ON t.team_id = P.TEAM_ID 
+GROUP BY 1;
+
+--What is the team name and captain name of the team with team_id = 2?
+
+SELECT TEAM_NAME, player_name AS captain
+FROM TEAMS t
+JOIN PLAYERS p ON t.team_id = P.TEAM_ID AND t.captain_id = p.player_id
+WHERE t.team_id = 2;
+
+--What are the player names and their roles in the team with team_id = 1?
+
+SELECT PLAYER_NAME, ROLE
+FROM PLAYERS
+WHERE TEAM_ID = 1;
+
+--What are the team names and the number of matches they have won?
+
+SELECT TEAM_NAME, COUNT(WINNER_ID) AS TOTAL_MATCHES_WON
+FROM TEAMS t
+JOIN MATCHES m ON t.team_id = m.winner_id 
+GROUP BY 1;
+
+
+--7. What is the average salary of players in the teams with country 'USA'?
+
+SELECT COUNTRY, ROUND(AVG(SALARY),2) AS AVERAGE_SALARY
+FROM TEAMS t
+JOIN players p ON t.team_id = p.team_id
+WHERE COUNTRY = 'USA'
+GROUP BY 1;
+
+-- Which team won the most matches?
+
+SELECT TEAM_NAME, COUNT(WINNER_ID) AS TOTAL_MATCHES_WON
+FROM TEAMS t
+JOIN MATCHES m ON t.team_id = m.winner_id 
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 1;
+
+--What are the team names and the number of players in each team whose salary is greater than 100,000?
+
+SELECT t.TEAM_NAME, COUNT(p.PLAYER_ID) as TOTAL_PLAYERS
+FROM TEAMS t
+JOIN PLAYERS p ON t.team_id = p.team_id  
+WHERE SALARY > 100000
+GROUP BY 1;
+
+-- What is the date and the score of the match with match_id = 3?
+
+SELECT MATCH_DATE, SCORE_TEAM1, SCORE_TEAM2
+FROM MATCHES
+WHERE MATCH_ID = 3;
